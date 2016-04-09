@@ -1,6 +1,7 @@
 import QtQuick 2.2
 import QtQuick.Controls 1.3
 import QtQuick.Layouts 1.1
+import QtQuick.Dialogs 1.1
 import QtWebKit 3.0
 import AutoBinding 1.0
 
@@ -43,14 +44,12 @@ ApplicationWindow {
         Button {
             id: button1
             y: 765
-            text: qsTr("Button")
+            text: "Generate"
             anchors.bottom: parent.bottom
             anchors.bottomMargin: 8
             anchors.left: parent.left
             anchors.leftMargin: 8
-            onClicked: {
-
-            }
+            onClicked: ruby.export()
         }
     }
 
@@ -72,12 +71,22 @@ ApplicationWindow {
         }
     }
 
+    MessageDialog {
+        id: messageDialog
+        title: "Export"
+        text: "Exported Succeeded"
+        visible: false
+    }
+
     Ruby {
         id: ruby
         html: editArea.text
         result: ''
         onRefresh: {
             webView.loadHtml(ruby.result, "")
+        }
+        onExported: {
+            messageDialog.visible = true
         }
     }
 

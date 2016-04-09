@@ -34,10 +34,15 @@ module AutoBinding
     property(:html) { '' }
     property(:result) { '' }
     signal :refresh, []
+    signal :exported, []
 
     on_changed :html do
       self.result = $template.clone.gsub(/\{\{page_body\}\}/, html.to_s)
       refresh.emit
+    end
+
+    def export
+      exported.emit
     end
   end
 
