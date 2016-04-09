@@ -129,6 +129,8 @@ button, input[type="button"] {
     background: #ABA59F;
     color: #ffffff;
     border-color: #ABA59F;
+    width: 60%;
+    margin-top: 5px;
 }
 
 input[type="text"],
@@ -148,6 +150,8 @@ textarea {
     font-family: Ubuntu;
     font-size: 0.8rem;
     padding: 8px;
+    width: 60%;
+    margin-top: 5px;
 }
 input[type="text"]:focus,
 input[type="password"]:focus,
