@@ -2,6 +2,7 @@ import QtQuick 2.2
 import QtQuick.Controls 1.3
 import QtQuick.Layouts 1.1
 import QtWebKit 3.0
+import AutoBinding 1.0
 
 ApplicationWindow {
     id: applicationWindow1
@@ -29,7 +30,7 @@ ApplicationWindow {
 
             id: editArea
             width: 0
-            text:"Hello World"
+            text:"<p> Hello World </p>"
             anchors.bottom: parent.bottom
             anchors.bottomMargin: 44
             anchors.right: parent.right
@@ -48,7 +49,7 @@ ApplicationWindow {
             anchors.left: parent.left
             anchors.leftMargin: 8
             onClicked: {
-                webView.loadHtml("<p>asasa</p>", "")
+
             }
         }
     }
@@ -68,9 +69,18 @@ ApplicationWindow {
         {
             id: webView
             anchors.fill: parent
-            url: "http://www.baidu.com/"
+            url: "about:blank"
+        }
+    }
 
+    Ruby {
+        id: ruby
+        html: editArea.text
+        result: ''
+        onRefresh: {
+            webView.loadHtml(ruby.result, "")
         }
     }
 
 }
+
