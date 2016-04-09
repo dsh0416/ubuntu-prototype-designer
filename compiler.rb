@@ -13,6 +13,8 @@ $template = '<!DOCTYPE html>
     <title>Title</title>
 </head>
 <body>
+<input type="button" value="test">
+<input type="text" value="test">
 <img src="a.jpg">
 </body>
 </html>'
@@ -34,17 +36,32 @@ class QMLCompiler
       next if node[:name] == 'text'
 
       if node[:name] == 'p'
-        node[:content] = child.children[0].content
+        node[:name] = 'Label'
+        node[:text] = child.children[0].content
         parent[:children] << node
         next
       end
 
       # Parse label img
       if node[:name] == 'img'
-        node[:src] = child['src']
+        node[:name] = 'Image'
+        node[:source] = child['src']
         parent[:children] << node
         next
       end
+
+      # Parse label input
+      if node[:name] == 'input'
+        if child['type'] == 'button'
+          node[:name] = 'Button'
+        else
+          node[:name] = 'TextField'
+        end
+        node[:text] = child['value']
+        parent[:children] << node
+        next
+      end
+
 
       node[:children] = Array.new
       parent[:children] << node
@@ -58,7 +75,38 @@ class QMLCompiler
   end
 
   def generate
-    JSON.generate @ast
+    template = 'import QtQuick 2.4
+import Ubuntu.Components 1.3
+MainView {
+    objectName: "mainView"
+    applicationName: ""
+    width: units.gu(100)
+    height: units.gu(75)
+
+    Page {
+        title: "Test"
+
+        Column {
+            spacing: units.gu(1)
+            anchors {
+                margins: units.gu(2)
+                fill: parent
+            }
+
+result
+
+        }
+    }
+}'
+    result = ''
+    @ast[:children][0][:children].each do |node|
+      result +="            #{node[:name]} {\n"
+      node.each_key do |key|
+        result += "                #{key}: '#{node[key]}'\n" unless key == 'name'.to_sym
+      end
+      result += "            }\n"
+    end
+    template.gsub(/result/, result)
   end
 end
 
