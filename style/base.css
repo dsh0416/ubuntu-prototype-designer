@@ -188,3 +188,89 @@ textarea {
     height: 80px;
     width: 190px;
 }
+
+
+html, body,
+[data-role="mainview"],
+[data-role="content"] {
+    position: relative;
+    width: 100%;
+    min-height: 100%;
+}
+
+[data-role="content"] {
+    background: #ededed;
+    border-top: 1px solid #f0f0f0;
+    font-size: 1rem "Ubuntu";
+    min-height: calc(100% - 75px);
+    color: #787878;
+}
+
+[data-role="content"] p {
+    font: 0.9rem "Ubuntu";
+    color: #787878;
+    line-height: 1.33;
+}
+
+[data-role="header"] {
+    background: #ededed;
+    height: 60px;
+    width: 100%;
+    position: fixed;
+    z-index: 10;
+}
+[data-role="header"]:after {
+    background: #c2c2c2;
+    content: "";
+    border-top: 1px solid #afafaf;
+    height: 15px;
+    width: 100%;
+    display: block;
+    position: absolute;
+    top: 60px;
+}
+
+[data-role="tabs"] {
+    background: #ededed;
+    -webkit-box-shadow: 0 0px 10px rgba(140, 140, 140, 0.3);
+    box-shadow: 0 0px 10px rgba(140, 140, 140, 0.3);
+    width: 160px;
+    max-height: 250px;
+    overflow: auto;
+    -webkit-overflow-scrolling: touch;
+    position: absolute;
+    left: 0;
+    top: 61px;
+    z-index: 9;
+    visibility: hidden;
+    opacity: 0;
+    transition: all 0.2s;
+}
+
+[data-role="tabs"].opened {
+    visibility: visible;
+    opacity: 1;
+}
+
+[data-role="tabitem"] {
+    position: relative;
+    padding: 16px 16px;
+    border-bottom: 1px solid #d9d9d9;
+    text-align: left;
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+[data-role="tabitem"]:only-child {
+    border-bottom: 0;
+}
+[data-role="tabitem"].active {
+    display: none;
+}
+[data-role="tabitem"].inactive {
+    display: block;
+}
+[data-role="tabitem"]:active {
+    background: rgba(0, 0, 0, 0.05);
+}
+
+
