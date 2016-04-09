@@ -47,6 +47,9 @@ ApplicationWindow {
             anchors.bottomMargin: 8
             anchors.left: parent.left
             anchors.leftMargin: 8
+            onClicked: {
+                webView.loadHtml("<p>asasa</p>", "")
+            }
         }
     }
 
@@ -63,6 +66,7 @@ ApplicationWindow {
         anchors.rightMargin: 0
         WebView
         {
+            id: webView
             anchors.fill: parent
             url: "http://www.baidu.com/"
 
