@@ -54,8 +54,7 @@ ApplicationWindow {
         }
     }
 
-    Rectangle
-    {
+    Rectangle {
         x: 0
         width: 480
         height: 0
