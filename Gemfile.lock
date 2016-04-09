@@ -4,6 +4,8 @@ GEM
     mini_portile2 (2.0.0)
     nokogiri (1.6.7.2)
       mini_portile2 (~> 2.0.0.rc2)
+    nokogiri-styles (0.1.2)
+      nokogiri
     qml (1.0.2)
 
 PLATFORMS
@@ -11,6 +13,7 @@ PLATFORMS
 
 DEPENDENCIES
   nokogiri
+  nokogiri-styles
   qml
 
 BUNDLED WITH
