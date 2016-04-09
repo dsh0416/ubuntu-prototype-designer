@@ -29,7 +29,11 @@ class QMLCompiler
     set.each do |child|
       node = Hash.new
       node[:name] = child.name
-      node[:width] = child.styles['width'].gsub(/px/, '') unless child.styles['width'].nil?
+      if child.styles['width'].nil?
+        node[:width] = 'parent.width * 0.6'
+      else
+        node[:width] = child.styles['width'].gsub(/px/, '')
+      end
       node[:height] = child.styles['height'].gsub(/px/, '') unless child.styles['height'].nil?
 
       # Parse label p
@@ -37,7 +41,7 @@ class QMLCompiler
 
       if node[:name] == 'p'
         node[:name] = 'Label'
-        node[:text] = child.children[0].content
+        node[:text] = "\"" + child.children[0].content  + "\""
         parent[:children] << node
         next
       end
@@ -45,7 +49,7 @@ class QMLCompiler
       # Parse label img
       if node[:name] == 'img'
         node[:name] = 'Image'
-        node[:source] = child['src']
+        node[:source] = "\"" + child['src'] + "\""
         parent[:children] << node
         next
       end
@@ -57,7 +61,7 @@ class QMLCompiler
         else
           node[:name] = 'TextField'
         end
-        node[:text] = child['value']
+        node[:text] = "\"" + child['value'] + "\"" unless child['value'].nil?
         parent[:children] << node
         next
       end
@@ -102,7 +106,7 @@ result
     @ast[:children][0][:children].each do |node|
       result +="            #{node[:name]} {\n"
       node.each_key do |key|
-        result += "                #{key}: '#{node[key]}'\n" unless key == 'name'.to_sym
+        result += "                #{key}: #{node[key]}\n" unless key == 'name'.to_sym
       end
       result += "            }\n"
     end
