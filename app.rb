@@ -1,4 +1,5 @@
 require 'qml'
+require './compiler.rb'
 
 $template = '<!DOCTYPE html>
 <html lang="en">
@@ -42,6 +43,17 @@ module AutoBinding
     end
 
     def export
+      compiler = QMLCompiler.new
+      compiler.parse html
+
+      @file_cpp = File.open('./output/mytype.h','w+')
+      @file_qml = File.open('./output/Main.qml','w+')
+
+      @file_cpp.write(compiler.generate_cpp)
+      @file_qml.write(compiler.generate_qml)
+
+      @file_cpp.close
+      @file_qml.close
       exported.emit
     end
   end

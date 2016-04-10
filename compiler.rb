@@ -125,13 +125,52 @@ result
   end
 
   def generate_cpp
+    template = '#ifndef MYTYPE_H
+#define MYTYPE_H
 
+#include <QObject>
+
+class MyType : public QObject
+{
+    Q_OBJECT
+properties
+
+public:
+invoke
+    explicit MyType(QObject *parent = 0);
+    ~MyType();
+
+Q_SIGNALS:
+signals
+
+protected:
+protects
+};
+
+#endif // MYTYPE_H
+'
+
+
+    property = ''
+    signal = ''
+    protect = ''
+
+    invoke = ''
+
+    @src.concat(@txt).each do |p|
+      property += "Q_PROPERTY( QString #{p} READ #{p} WRITE set#{p} NOTIFY #{p}Changed )\n"
+      signal += "void #{p}Changed();\n"
+      protect += "QString #{p}() { return m_#{p}; }
+    void set#{p}(QString msg) { m_#{p} = msg; Q_EMIT #{p}Changed(); }
+
+    QString m_#{p};\n"
+    end
+
+    @btn.each do |b|
+      invoke += "Q_INVOKABLE void #{b}();\n"
+    end
+
+    template.gsub(/properties/, property).gsub(/signals/, signal).gsub(/protects/, protect).gsub(/invoke/, invoke)
   end
 
 end
-
-html = '<img src={{pic}}><p>{{para}}</p><input type="button" value="hello" id="confirm">'
-
-q = QMLCompiler.new
-q.parse(html)
-puts q.generate_qml
